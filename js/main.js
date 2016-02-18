@@ -118,8 +118,7 @@ window.onload = function() {
         cursors = game.input.keyboard.createCursorKeys();
 
         bgMusic = game.add.audio('bgMusic');
-        sounds = [bgMusic];
-        game.sound.setDecodedCallback(sounds, start, this);
+        bgMusic.play();
     }
     
     function update() 
@@ -162,6 +161,12 @@ window.onload = function() {
         if (totalBats < 10)
             {
                 summonBat();
+            }
+        
+        // Music
+        if (!(bgMusic.isPlaying))
+            {
+                bgMusic.play();
             }
           
     }
