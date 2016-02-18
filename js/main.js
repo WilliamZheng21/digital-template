@@ -9,19 +9,28 @@ window.onload = function() {
     var wallLeft;
     var wallRight;
     
+    var oneblock;
+    var twoblockside;
+    var twoblockvert;
+    var threeblockside;
+    var threeblockvert;
+    var fiveblockside;
+    var sixblock;
+    var eightblock;
+    
     var cursors;
     var player;
     var left;
     var right;
-    
-    var bullet;
-    var bullets;
-    var bulletTime = 0;
-    
+
     var bat;
     var totalBats = 0;
     
     var timer = 0;
+    var bgMusic;
+    var sounds;
+    var current;
+    var loopCount = 0;
     
     function preload() 
     {
@@ -32,8 +41,16 @@ window.onload = function() {
         game.load.image('wallRight', 'assets/wall_bound_right.png');
         game.load.spritesheet('player', 'assets/player_sprite.png', 50, 50, 8);
         game.load.spritesheet('bat', 'assets/bat_sprite.png', 45, 36, 4);
-        game.load.image('bullet', 'assets/yellow_ball.png');
-        
+        game.load.image('1block', 'assets/1block.png');
+        game.load.image('2blockside', 'assets/2blockside.png');
+        game.load.image('2blockvert', 'assets/2blockvert.png');
+        game.load.image('3blockside', 'assets/3blockside.png');
+        game.load.image('3blockvert', 'assets/3blockvert.png');
+        game.load.image('5blockside', 'assets/5blockside.png');
+        game.load.image('6block', 'assets/6block.png');
+        game.load.image('8block', 'assets/8block.png');
+        game.load.audio('bgMusic', 'assets/Abyss.mp3');
+
     }
     
     function create() 
@@ -73,18 +90,14 @@ window.onload = function() {
         wallRight.body.checkCollision.right = false;
         wallRight.body.checkCollision.up = false;
         wallRight.body.checkCollision.down = false;
-        
-        // Keyboard input
-        //wKey = game.input.keyboard.addKey(Phaser.Keyboard.W);
-        //aKey = game.input.keyboard.addKey(Phaser.Keyboard.A);
-        //sKey = game.input.keyboard.addKey(Phaser.Keyboard.S);
-        //dKey = game.input.keyboard.addKey(Phaser.Keyboard.D);
-        
-        //wKey.onDown.add(shootUp());
-        //aKey.onDown.add(shootLeft());
-        //sKey.onDown.add(shootDown());
-        //dKey.onDown.add(shootRight());
-        
+
+        // Maze setup
+        oneblock = game.add.sprite(197, 120, '1block');
+        //oneblock = game.add.sprite(405, 125, '1block');
+        //oneblock = game.add.sprite(405, 175, '1block'); 
+        game.physics.enable(oneblock, Phaser.Physics.ARCADE);
+        //oneblock.body.immovable = true;
+        oneblock.body.checkCollision.up = true;
         // Player
         player = game.add.sprite(300, 200, 'player', 2);
         player.smoothed = false;
@@ -101,23 +114,12 @@ window.onload = function() {
         
         game.camera.follow(player);
         
-        // Bullets
-        bullets = game.add.group();
-        bullets.enableBody = true;
-        bullets.physicsBodyType = Phaser.Physics.ARCADE;
-        
-        bullets.createMultiple(40, 'bullet');
-        bullets.setAll('checkWorldBounds', true);
-        bullets.setAll('outOfBoundsKill', true);
-        
         //input
         cursors = game.input.keyboard.createCursorKeys();
-        game.input.keyboard.addKeyCapture(Phaser.Keyboard.SPACEBAR);/*
-        game.input.keyboard.addKeyCapture(Phaser.Keyboard.A);
-        game.input.keyboard.addKeyCapture(Phaser.Keyboard.S);
-        game.input.keyboard.addKeyCapture(Phaser.Keyboard.D);
-        */
-        // Bat
+
+        bgMusic = game.add.audio('bgMusic');
+        sounds = [bgMusic];
+        game.sound.setDecodedCallback(sounds, start, this);
     }
     
     function update() 
@@ -155,37 +157,22 @@ window.onload = function() {
             {
                 player.animations.stop();
             }
-        
-        // Bullets
-        
-        if (game.input.activePointer.isDown)
-            {
-                shootUp();
-            }
-        /*else if (game.input.keyboard.isDown(Phaser.KeyCode.A))
-            {
-                shootLeft();
-            }
-        else if (game.input.keyboard.isDown(Phaser.KeyCode.S))
-            {
-                shootDown();
-            }
-        else if (game.input.keyboard.isDown(Phaser.KeyCode.D))
-            {
-                shootRight();
-            }
-        */
-        
+
         // Bat summons
-        if (totalBats < 5)
+        if (totalBats < 10)
             {
                 summonBat();
             }
-        // Bat ai
-        
-        
+          
     }
         
+    function start() 
+    {
+        sounds.shift();
+        
+        bgMusic.loopFull(1);
+    }
+    
     function summonBat()
     {
         // Spawns bat outside of map  
@@ -201,52 +188,5 @@ window.onload = function() {
         
         totalBats++;
     }
-    
-    function shootUp()
-    {
-        /*
-        if (game.time.now > bulletTime)
-            {
-                bullet = bullets.getFirstExists(false);
-                
-                if (bullet)
-                    {
-                        bullet.reset(sprite.body.x + 16, sprite.body.y + 16);
-                        bullet.lifespan = 2000;
-                        bullet.rotation = sprite.rotation;
-                        game.physics.arcade.velocityFromRotation(sprite.rotation, 400, bullet.body.velocity);
-                        bulletTime = game.time.now + 50;
-                    }
-            }*/
-        if (game.time.now > nextFire && bullets.countDead() > 0)
-    {
-        nextFire = game.time.now + fireRate;
-
-        var bullet = bullets.getFirstDead();
-
-        bullet.reset(sprite.x - 8, sprite.y - 8);
-
-        game.physics.arcade.moveToPointer(bullet, 300);
-    }
-    }
-    
-    function shootDown()
-    {
-        
-    }
-    
-    function shootLeft()
-    {
-        
-    }
-    
-    function shootRight()
-    {
-        
-    }
-    
-    function render()
-    {
-        
-    }
+   
 };
