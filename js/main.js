@@ -16,7 +16,7 @@ window.onload = function() {
         var player = game.add.sprite(300, 200, 'player');
         var walk = player.animations.add('walk');
         
-        player.animations.play('walk', 60, true);
+        player.animations.play('walk', 1, true);
     }
     
     function update() {
