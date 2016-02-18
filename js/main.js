@@ -92,12 +92,12 @@ window.onload = function() {
         wallRight.body.checkCollision.down = false;
 
         // Maze setup
-        oneblock = game.add.sprite(197, 120, '1block');
+        //oneblock = game.add.sprite(197, 120, '1block');
         //oneblock = game.add.sprite(405, 125, '1block');
         //oneblock = game.add.sprite(405, 175, '1block'); 
-        game.physics.enable(oneblock, Phaser.Physics.ARCADE);
+        //game.physics.enable(oneblock, Phaser.Physics.ARCADE);
         //oneblock.body.immovable = true;
-        oneblock.body.checkCollision.up = true;
+        //oneblock.body.checkCollision.up = true;
         // Player
         player = game.add.sprite(300, 200, 'player', 2);
         player.smoothed = false;
