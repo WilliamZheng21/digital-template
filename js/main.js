@@ -13,11 +13,8 @@ window.onload = function() {
     var bouncy;
     
     function create() {
-        // Create a sprite at the center of the screen using the 'logo' image.
-        bouncy = game.add.sprite( game.world.centerX, game.world.centerY, 'floor' );
-        // Anchor the sprite at its center, as opposed to its top-left corner.
-        // so it will be truly centered.
-        bouncy.anchor.setTo( 0.5, 0.5 );
+        // Floor background
+        floor = game.add.sprite(0, 0, 'floor' );
         
         // Turn on the arcade physics engine for this sprite.
         game.physics.enable( bouncy, Phaser.Physics.ARCADE );
