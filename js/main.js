@@ -14,7 +14,7 @@ window.onload = function() {
     
     function create() {
         // Floor background
-        floor = game.add.sprite(0, 0, 'floor' );
+        game.add.sprite(0, 0, 'floor' );
         
         // Turn on the arcade physics engine for this sprite.
         game.physics.enable( bouncy, Phaser.Physics.ARCADE );
